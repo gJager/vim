@@ -1,0 +1,8 @@
+#!/bin/bash
+
+THIS_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+NVIM_DIR=`dirname $THIS_DIR`
+NVIM_CONFIG=$NVIM_DIR/config/init.lua
+
+
+$NVIM_DIR/nvim-linux64/bin/nvim -u $NVIM_CONFIG $@
