@@ -1,4 +1,7 @@
+-- TODO check to see if node is installed
 config_dir = debug.getinfo(1).source:match("@?(.*/)")
+
+vim.opt.rtp:append(config_dir)
 
 function add_plugin(plugin)
     plugins_path = config_dir .. "../plugins/" .. plugin .. "/lua/?.lua"
