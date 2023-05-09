@@ -1,0 +1,3 @@
+[submodule "config/plugins/config/plugins/nvim-lspconfig"]
+	path = config/plugins/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
