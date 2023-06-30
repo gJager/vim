@@ -1,109 +1,24 @@
 #!/usr/bin/python3
 
 import sys
-from distutils.version import LooseVersion
-from posh import posh
-from posh import VAR
+from posh import sh as posh
 from pathlib import Path
 
 MYPATH = Path(__file__).resolve()
-INIT_LUA = Path(MYPATH.parent, '../config/init.lua')
+BIN = Path(MYPATH.parent).resolve()
+INIT_LUA = Path(MYPATH.parent, '../lua/init.lua')
 
-# Some functions that might be used multiple times
-def pip_install(package):
-    if not 'pip3' in posh.env._exe:
-        print("Can't find pip3")
-        return
-    posh.pip3('install', package) # pyright: ignore
-    
-def port_install(package):
-    if not 'port' in posh.env._exe:
-        print("Can't find port")
-        return
-    posh.sudo('port', 'install', package) # pyright: ignore
-    
 # Look for nvim
-if not 'nvim' in posh.env._exe:
-    print("Can't find neovim")
-    # TODO look for neovim
-    sys.exit(1) 
-
 # Check nvim version
-nvim_version = posh.redir(stdout=VAR).nvim('--version') # pyright: ignore
-
-nvim_version = nvim_version.splitlines()[0]
-nvim_version = nvim_version.split(' ')[1]
-if nvim_version.startswith('v'):
-    nvim_version = nvim_version[1:]
-if LooseVersion(nvim_version) < LooseVersion('0.9'):
-    print(f'Neovim version - {nvim_version} - is too low. Please update it')
-    sys.exit(1)
-
 # Check for neovim-remote
-if not 'nvr' in posh.env._exe:
-    print("It appears that neovim-remote isn't installed. Would you like me to try to install it? (y/n)")
-    res = None
-    while res != 'y' and res != 'n':
-        res = input()
-    if res == 'y':
-        pip_install('neovim-remote')
-
-if 'nvr' in posh.env._exe:
-    nvr_version = posh.redir(stdout=VAR).nvr('--version').splitlines()[0].split(' ')[1] # pyright: ignore
-else:
-    nvr_version = ''
-
 # Node is needed for pyright
-if not 'node' in posh.env._exe:
-    print("It appears that node isn't installed. Would you like me to try to install it? (y/n)")
-    res = None
-    while res != 'y' and res != 'n':
-        res = input()
-    if res == 'y':
-        port_install('nodejs18')
-
-if 'node' in posh.env._exe:
-    node_version = posh.redir(stdout=VAR).node('--version')[1:].strip() # pyright: ignore
-else:
-    node_version = ''
-
 # Check for pyright
-if LooseVersion(node_version) < LooseVersion('12'):
-    print("Node version is too low for pyright")
-
-if not 'pyright' in posh.env._exe:
-    print("I don't see pyright on the path. Adding this files path.")
-    posh.env.add_path(MYPATH.parent)
-    if not 'pyright' in posh.env._exe:
-        print("Hmm, that didn't work")
-        posh.env.remove_path(MYPATH.parent)
-    
-if 'pyright' in posh.env._exe:
-    pyright_version = posh.redir(stdout=VAR).pyright('--version').split(' ')[1].strip() #pyright: ignore
-else:
-    pyright_version = ''
-
-
 # Check for clangd
-if not 'clangd' in posh.env._exe:
-    print("Clangd isn't installed. I'm going to let you figure out how to install this onel.")
-if 'clangd' in posh.env._exe:
-    clangd_version = posh.redir(stdout=VAR).clangd('--version') # pyright:ignore
-    marker = clangd_version.index('version')
-    clangd_version = clangd_version[marker:].split(' ')[1]
-else:
-    clangd_version = ''
 
 # Print details
-print(f'------------------------------------')
-print(f'Using Neovim version: {nvim_version}')
-print(f'         nvr version: {nvr_version}')
-print(f'        node version: {node_version}')
-print(f'     pyright version: {pyright_version}')
-print(f'      clangd version: {clangd_version}')
-print(f'------------------------------------')
 
 # Start nvim
 print('Ready to start')
 input()
+posh.env.add_path(BIN)
 posh.nvim('-u', INIT_LUA, *sys.argv[1:]) # pyright: ignore

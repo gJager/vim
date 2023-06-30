@@ -1,3 +1,18 @@
 [submodule "config/plugins/config/plugins/nvim-lspconfig"]
 	path = config/plugins/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "plugins/pack/all/start/null-ls.nvim"]
+	path = plugins/pack/all/start/null-ls.nvim
+	url = https://github.com/jose-elias-alvarez/null-ls.nvim.git
+[submodule "plugins/pack/all/start/nvim-lspconfig"]
+	path = plugins/pack/all/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "plugins/pack/all/start/plenary.nvim"]
+	path = plugins/pack/all/start/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim.git
+[submodule "plugins/pack/all/start/telescope.nvim"]
+	path = plugins/pack/all/start/telescope.nvim
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "plugins/pack/all/start/vim-airline"]
+	path = plugins/pack/all/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
