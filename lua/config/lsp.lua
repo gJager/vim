@@ -1,3 +1,4 @@
+print('loading mlsp')
 -------- Setup nvim-lspconfig --------
  
 -- Set keybindings when a language server is used

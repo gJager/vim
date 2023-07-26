@@ -16,3 +16,6 @@
 [submodule "plugins/pack/all/start/vim-airline"]
 	path = plugins/pack/all/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
+[submodule "plugins/pack/all/start/telescope-live-grep-args.nvim"]
+	path = plugins/pack/all/start/telescope-live-grep-args.nvim
+	url = https://github.com/nvim-telescope/telescope-live-grep-args.nvim.git

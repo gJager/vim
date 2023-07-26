@@ -14,6 +14,7 @@ INIT_LUA = Path(MYPATH.parent, '../lua/init.lua')
 # Node is needed for pyright
 # Check for pyright
 # Check for clangd
+# check for ripgrep
 
 # Print details
 
