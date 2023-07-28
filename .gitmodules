@@ -19,3 +19,6 @@
 [submodule "plugins/pack/all/start/telescope-live-grep-args.nvim"]
 	path = plugins/pack/all/start/telescope-live-grep-args.nvim
 	url = https://github.com/nvim-telescope/telescope-live-grep-args.nvim.git
+[submodule "plugins/pack/all/start/nvim-treesitter"]
+	path = plugins/pack/all/start/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git

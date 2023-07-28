@@ -11,14 +11,17 @@ INIT_LUA = Path(MYPATH.parent, '../lua/init.lua')
 # Look for nvim
 # Check nvim version
 # Check for neovim-remote
-# Node is needed for pyright
+# Node is needed for pyright > 12
 # Check for pyright
 # Check for clangd
 # check for ripgrep
+# pip install ruff
+# npm install -g svelte-language-server
 
 # Print details
 
 # Start nvim
+print(BIN)
 print('Ready to start')
 input()
 posh.env.add_path(BIN)
