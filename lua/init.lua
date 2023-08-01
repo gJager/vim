@@ -29,6 +29,8 @@ local null_ls = require("null-ls")
 
 vim.cmd [[colorscheme Papercolor]]
 
+-- Prevent quitting when closing windows
+vim.cmd [[cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>]]
 -- Tabs
 vim.opt.expandtab = true
 vim.opt.autoindent = true
@@ -119,6 +121,7 @@ telescope_insert = {
 lsp_normal = {
     ['gd'] = vim.lsp.buf.definition,
     ['gD'] = vim.lsp.buf.declaration,
+    ['gr'] = telescope_builtin.lsp_references,
 }
 
 -- Ones from the sample that might be useful
@@ -177,6 +180,9 @@ require('lspconfig')['pyright'].setup{
     on_attach = lsp_on_attach,
 }
 require('lspconfig')['svelte'].setup{
+    on_attach = lsp_on_attach,
+}
+require('lspconfig')['clangd'].setup{
     on_attach = lsp_on_attach,
 }
 
