@@ -1,18 +1,52 @@
 #!/usr/bin/python3
 
 import sys
-from posh import sh as posh
+from posh import sh
 from pathlib import Path
 
 MYPATH = Path(__file__).resolve()
-BIN = Path(MYPATH.parent).resolve()
+
+BIN_PATH = Path(MYPATH.parent).resolve()
 INIT_LUA = Path(MYPATH.parent, '../lua/init.lua')
 
+def info(msg):
+    print(msg)
+
+def err(msg):
+    print(f"\033[0;31m{msg}\033[0m")
+    sys.exit(1)
+
+def warn(msg):
+    print(f"\033[0;33m{msg}\033[0m")
+    sys.exit(1)
+
 # Look for nvim
+if not sh.nvim:
+    err("You need to install nvim")
+
 # Check nvim version
+nvim_version = sh.var().nvim('--version')
+nvim_version = nvim_version.split()[1][1:]
+if [int(x) for x in nvim_version.split('.')] < [0, 9, 0]:
+    err("You should install nvim of at least 0.9.0")
+
 # Check for neovim-remote
+if not sh.nvr:
+    info("You need neovim-remote installed")
+    if not sh.pip3('install', 'neovim-remote'):
+        warn("Couldn't install neovim-remote. You should look into that")
+
 # Node is needed for pyright > 12
+if not sh.node:
+    warn("Please install node")
+    node_version = None
+else:
+    node_version = sh.var().node('--version').strip()[1:]
+    if [int(x) for x in node_version.split('.')] < [12]:
+        warn("Node > 12 is needed for pyright")
+
 # Check for pyright
+
 # Check for clangd
 # check for ripgrep
 # pip install ruff
@@ -20,8 +54,10 @@ INIT_LUA = Path(MYPATH.parent, '../lua/init.lua')
 
 # Print details
 
+warn('oops')
+err('here')
 # Start nvim
-print(BIN)
+print(BIN_PATH)
 print('Ready to start')
 input()
 posh.env.add_path(BIN)
