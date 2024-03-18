@@ -1,7 +1,7 @@
-print("loading map")
--- ====================================================================
+-- Helper functions for other modules to be able to easily make mappings
+-- =====================================================================
 -- Functions
--- ====================================================================
+-- =====================================================================
 
 function noremap(mode, binding, command)
     vim.keymap.set(mode, binding, command, {noremap = true})

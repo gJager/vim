@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import sys
 from posh import sh
@@ -6,8 +6,10 @@ from pathlib import Path
 
 MYPATH = Path(__file__).resolve()
 
+CWD = sh.cwd
 BIN_PATH = Path(MYPATH.parent).resolve()
-INIT_LUA = Path(MYPATH.parent, '../lua/init.lua')
+NPM_PATH = Path(BIN_PATH, '../npm/').resolve()
+INIT_LUA = Path(BIN_PATH, '../lua/init.lua')
 
 def info(msg):
     print(msg)
@@ -20,7 +22,7 @@ def warn(msg):
     print(f"\033[0;33m{msg}\033[0m")
     sys.exit(1)
 
-# Look for nvim
+# Nvim needs to be installed
 if not sh.nvim:
     err("You need to install nvim")
 
@@ -33,12 +35,14 @@ if [int(x) for x in nvim_version.split('.')] < [0, 9, 0]:
 # Check for neovim-remote
 if not sh.nvr:
     info("You need neovim-remote installed")
-    if not sh.pip3('install', 'neovim-remote'):
+    if not sh.null().pip3('install', 'neovim-remote'):
         warn("Couldn't install neovim-remote. You should look into that")
+    else:
+        info("I installed it for you")
 
 # Node is needed for pyright > 12
 if not sh.node:
-    warn("Please install node")
+    warn("Please install node for pyright")
     node_version = None
 else:
     node_version = sh.var().node('--version').strip()[1:]
@@ -46,19 +50,33 @@ else:
         warn("Node > 12 is needed for pyright")
 
 # Check for pyright
+sh.path.add(BIN_PATH)
+if not sh.null().list(f"{BIN_PATH}/pyright"):
+    sh.cd(NPM_PATH)
+    sh.null().npm('install')
+
+# Check for ripgrep
+if not sh.ripgrep:
+    warn("You might want to install ripgrep")
+
+# pip install ruff
+if not sh.ruff:
+    info("Installing ruff")
+    if not sh.pip3('install', 'ruff'):
+        warn("Couldn't install ruff")
 
 # Check for clangd
-# check for ripgrep
-# pip install ruff
 # npm install -g svelte-language-server
+# check if submodules have been pulled and pull them if they havent
 
 # Print details
+info(f"nvim version: {nvim_version}")
+info(f"node version: {node_version}")
 
-warn('oops')
-err('here')
 # Start nvim
 print(BIN_PATH)
 print('Ready to start')
 input()
-posh.env.add_path(BIN)
-posh.nvim('-u', INIT_LUA, *sys.argv[1:]) # pyright: ignore
+sh.path.add(BIN_PATH)
+sh.cd(CWD)
+sh.nvim('-u', INIT_LUA, *sys.argv[1:]) # pyright: ignore
