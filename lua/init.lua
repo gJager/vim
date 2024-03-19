@@ -16,12 +16,13 @@ require "config.util"
 require "config.mappings"
 require "config.telescope"
 require "config.treesitter"
+require "config.lsp"
  
 -- Load plugin objects
 -- local telescope_actions = require("telescope.actions")
 -- local telescope_builtin = require("telescope.builtin")
 -- local telescope_lga_actions = require("telescope-live-grep-args.actions")
-local null_ls = require("null-ls")
+-- local null_ls = require("null-ls")
 local api = vim.api
  
 -- ====================================================================
@@ -74,7 +75,12 @@ vim.opt.undofile = true
 vim.diagnostic.config({virtual_text = false})
 vim.o.updatetime = 300
 vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+-- Setup tab complete
+vim.cmd "set wildmode=longest,longest:list"
  
+-- Turn off that terrible mouse support. Nooo thank you.
+vim.cmd "set mouse="
  
 -- ====================================================================
 -- Mappings
