@@ -20,7 +20,6 @@ def err(msg):
 
 def warn(msg):
     print(f"\033[0;33m{msg}\033[0m")
-    sys.exit(1)
 
 # Nvim needs to be installed
 if not sh.nvim:
