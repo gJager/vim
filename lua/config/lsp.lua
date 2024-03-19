@@ -3,8 +3,6 @@ print('loading mlsp')
 local status, telescope_builtin = pcall(require, 'telescope.builtin')
 
 local references = status and telescope_builtin or vim.lsp.buf.references
-print(references)
-print(telescope_builtin)
 
 -- lsp normal
 lsp_normal = {
