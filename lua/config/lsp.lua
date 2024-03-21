@@ -2,7 +2,7 @@ print('loading mlsp')
 
 local status, telescope_builtin = pcall(require, 'telescope.builtin')
 
-local references = status and telescope_builtin or vim.lsp.buf.references
+local references = status and telescope_builtin.lsp_references or vim.lsp.buf.references
 
 -- lsp normal
 lsp_normal = {
@@ -11,10 +11,17 @@ lsp_normal = {
     ['gr'] = references,
 }
 
+lsp_insert = {
+    ['<C-n>'] = '<C-x><C-o>',
+}
+
 -- ========== Setup nvim-lspconfig ===========
 local lsp_on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    -- Prevent perview window from being opened
+    vim.opt.completeopt = { "menu" }
 
     local bufopts = { noremap=true, silent=true, buffer=bufnr }
     for k, v in pairs(lsp_normal) do

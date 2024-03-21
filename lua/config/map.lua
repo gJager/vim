@@ -29,3 +29,12 @@ end
 function tnoremaps(list)
     multiple_remaps(list, tnoremap)
 end
+
+
+function inoremap(binding, command)
+    noremap('i', binding, command)
+end
+
+function inoremaps(list)
+    multiple_remaps(list, tnoremap)
+end
